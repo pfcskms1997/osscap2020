@@ -93,3 +93,4 @@ while(1):
         #종료시간 - 시작시간 기록(?)
 
 print("걸린 시간:",time.time()-start)
+
