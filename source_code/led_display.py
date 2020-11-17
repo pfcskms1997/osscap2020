@@ -4,6 +4,7 @@ import time
 delay = 0.000001
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 red1_pin = 11
 green1_pin = 27
 blue1_pin = 7
@@ -30,7 +31,7 @@ GPIO.setup(c_pin, GPIO.OUT)
 GPIO.setup(latch_pin, GPIO.OUT)
 GPIO.setup(oe_pin, GPIO.OUT)
 
-screen = [[0 for x in xrange(32)] for x in xrange(16)]
+screen = [[0 for x in range(32)] for x in range(16)]
 
 def clock():
     GPIO.output(clock_pin, 1)
@@ -94,9 +95,14 @@ def fill_rectangle(x1, y1, x2, y2, color):
 def set_pixel(x, y, color):
     screen[y][x] = color
 
-fill_rectangle(0, 0, 12, 12, 1)
-fill_rectangle(20, 4, 30, 15, 2)
-fill_rectangle(15, 0, 19, 7, 7)
+#fill_rectangle(0, 0, 12, 12, 1)
+#fill_rectangle(20, 4, 30, 15, 2)
+#fill_rectangle(15, 0, 19, 7, 7)
+def fill_rectangle(x1, y1, x2, y2, color):
+	for x in range(x1, x2):
+		for y in range(y1, y2):
+			screen[y][x] = color
 
-while True:
-    refresh()
+def main():
+    while True:
+        refresh()
