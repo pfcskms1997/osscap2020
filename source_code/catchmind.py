@@ -38,16 +38,21 @@ for i in range(31):
     
 
 
-#클릭에 따라 색칠하기
-    
+#
 def drawShape(x,y):    
-    pensize(30)
-    a=x-x%50+25    
-    b=(y//50+1)*50
+    pensize(50)
     up()
-    goto(a,b-15)
+    goto(x,y)
     down()
-    goto(a,b-30)
+    goto(x,y-25)
+    onscreenclick(None)    
+    
+
+#
+
+
+        
+#색칠하기    
 
 #시작지점 50 나눈거에서 나머지빼줘야함
     
@@ -75,6 +80,12 @@ while(1):
             #LED matrix에도 위치에 따른 색 출력
         
 
+#색 정하고 클릭한 칸 fill
+        
+        #onscreenclick:화면내의 특정지점을 클릭하면 그 좌표를 기억하고 실행하는 함수
+        #화면 클릭 시 함수 실행
+        # 실행되는 함수는 현재 좌표(클릭 지점)인 (x,y)를 매개변수로 이용
+
 
 #음성인식해서 정답일 시
         #종료시간 측정
@@ -82,3 +93,4 @@ while(1):
         #종료시간 - 시작시간 기록(?)
 
 print("걸린 시간:",time.time()-start)
+
