@@ -1,9 +1,13 @@
-#공룡게임으로 얻은 색깔 블럭 기록 받아오기
-#list로 
+#아직 해결 못한거:시간측정, LED 출력, 음성인식 
+
+
+#공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
+#색(빨주노초파보흰) colorlist
+colorlist=["red","orange","yellow","green","blue","purple","gray"]
+colorlistcnt=[0,2,3,0,4,2,3]
 
 from turtle import*
 import time
-
 
 #시작시간 측정
 start=time.time()
@@ -11,7 +15,7 @@ start=time.time()
 pencolor("black")
 title("Catch my drawing")
 
-#화면 크기
+#화면 설정
 setup(1600,800)
 hideturtle()
 speed(100000)
@@ -36,12 +40,29 @@ for i in range(31):
     backward(800)
     v+=50
     
+#색깔 별로 화면에 색칠해주기
+def drawColor(color,b):
+    pensize(30)
+    pencolor(color)
+    up()
+    goto(725,b)
+    down()
+    goto(725,b-15)
 
+
+#화면에 색깔의 존재 나타내기
+for i in range(0,7,1):
+    if colorlistcnt[i]>0:
+        drawColor(colorlist[i],335-i*50)
 
 #클릭에 따라 색칠하기
-    
 def drawShape(x,y):    
-    pensize(30)
+    
+    if 700<=x<=750:
+        for k in range(0,7,1):
+            if 300-50*k<y<=350-50*k:
+                if colorlistcnt[k]>0:
+                    pencolor(colorlist[k])
     a=x-x%50+25    
     b=(y//50+1)*50
     up()
@@ -49,33 +70,9 @@ def drawShape(x,y):
     down()
     goto(a,b-30)
 
-#시작지점 50 나눈거에서 나머지빼줘야함
-    
-while(1):
-    color=input("사용할 색을 입력하시오.(종료를 원하면 a/ 취소를 원하면 z)")
-    if color =="a":
-        break
- 
-            #elif color=="z":
-        #취소에 대한 내용
-    elif color=='red':
-        pencolor("red")
-        onscreenclick(drawShape)
-        mainloop()
 
-    elif color=='green':
-        pencolor("green")
-        onscreenclick(drawShape)
-        mainloop()
+onscreenclick(drawShape)
         
-    else:
-            #if list[1]==0: print("green 색깔 블럭이 없습니다.")
-            #else 진행
-        print("잘못입력하셨습니다.")
-            #LED matrix에도 위치에 따른 색 출력
-        
-
-
 #음성인식해서 정답일 시
         #종료시간 측정
         #종료시간 - 시작시간 보여줌
