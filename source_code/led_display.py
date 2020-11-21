@@ -93,7 +93,8 @@ def fill_rectangle(x1, y1, x2, y2, color):
 
 
 def set_pixel(x, y, color):
-    screen[y][x] = color
+	if 0 <= x and x < 32 and 0 <= y and y < 16:
+		screen[y][x] = color
 
 #fill_rectangle(0, 0, 12, 12, 1)
 #fill_rectangle(20, 4, 30, 15, 2)
