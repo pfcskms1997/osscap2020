@@ -1,4 +1,6 @@
 import pygame
+import led_display as led
+import threading
 from random import *
 
 pygame.init()
@@ -19,27 +21,35 @@ RED = (150, 0, 0)
 GREEN = (0, 50, 0)
 BLUE =(0, 0, 204)
 YELLOW = (255, 255, 51)
-PUPPLE = (204, 0, 204)
-Color_Set = [BLACK, WHITE, ORANGE, RED, GREEN, BLUE, YELLOW, PUPPLE]
+PURPLE = (204, 0, 204)
+Color_Set = [BLACK, WHITE, ORANGE, RED, GREEN, BLUE, YELLOW, PURPLE]
 
 speed = 0.4
 run = True
 dino_array = [ [ 1, 0, 0, 0, 1, 0 ],
-                [ 1, 0, 0, 1, 1, 1 ], 
-                [ 1, 1, 1, 1, 1, 1 ], 
-                [ 1, 1, 1, 1, 0, 0 ],
-                [ 0, 1, 1, 1, 0, 0 ],
-                [ 0, 1, 0, 0, 0, 0 ] ]
+               [ 1, 0, 0, 1, 1, 1 ], 
+               [ 1, 1, 1, 1, 1, 1 ], 
+               [ 1, 1, 1, 1, 0, 0 ],
+               [ 0, 1, 1, 1, 0, 0 ],
+               [ 0, 1, 0, 0, 0, 0 ] ]
 Ducked_dino_array= [ [ 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0 ], 
-                [ 1, 1, 1, 1, 1, 1 ], 
-                [ 0, 1, 1, 1, 1, 1 ],
-                [ 0, 1, 1, 1, 0, 0 ],
-                [ 0, 1, 0, 0, 0, 0 ] ]
+                     [ 0, 0, 0, 0, 0, 0 ], 
+                     [ 1, 1, 1, 1, 1, 1 ], 
+                     [ 0, 1, 1, 1, 1, 1 ],
+                     [ 0, 1, 1, 1, 0, 0 ],
+                     [ 0, 1, 0, 0, 0, 0 ] ]
 ptera_array =  [ [ 0, 0, 0, 0 ],
-                   [ 0, 1, 0, 0 ], 
-                   [ 1, 1, 1, 1 ], 
-                   [ 0, 0, 0, 0 ] ]        
+                 [ 0, 1, 0, 0 ], 
+                 [ 1, 1, 1, 1 ], 
+                 [ 0, 0, 0, 0 ] ]        
+
+background = [[0 for x in range(32)] for x in range(16)]
+
+def LED_init():
+    t=threading.Thread(target=led.main, args=())
+    t.setDaemon(True)
+    t.start()
+    return
 
 class Dino():
     def __init__(self, x, y):
@@ -57,6 +67,7 @@ class Dino():
                 for j in range(6):
                     if dino_array[i][j] == 1:
                         pygame.draw.rect(win, WHITE, [int(self.x+j*Pixel), int(self.y+i*Pixel-5*Pixel), Pixel, Pixel])
+                        led.set_pixel(int((self.x+j*Pixel)/Pixel), int((self.y+i*Pixel-5*Pixel)/Pixel), 4)
             self.Col_U_D = pygame.Rect(int(self.x+0*Pixel), int(self.y-5*Pixel), 6*Pixel, 3*Pixel)
             self.Col_L_D = pygame.Rect(int(self.x+0*Pixel), int(self.y-2*Pixel), 4*Pixel, 2*Pixel)
                         
@@ -65,6 +76,7 @@ class Dino():
                 for j in range(6):
                     if Ducked_dino_array[i][j] == 1:
                         pygame.draw.rect(win, WHITE, [int(self.x+j*Pixel), int(self.y+i*Pixel-5*Pixel), Pixel, Pixel])
+                        led.set_pixel(int((self.x+j*Pixel)/Pixel), int((self.y+i*Pixel-5*Pixel)/Pixel), 1)
             self.Col_U_D = pygame.Rect(int(self.x+0*Pixel), int(self.y-3*Pixel), 6*Pixel, 2*Pixel)
             self.Col_L_D = pygame.Rect(int(self.x+0*Pixel), int(self.y-Pixel), 4*Pixel, 2*Pixel)
 
@@ -105,6 +117,7 @@ class Ptera():
             for j in range(4):
                 if ptera_array[i][j] == 1:
                     pygame.draw.rect(win, ORANGE, [int((self.Ptera_loc_x*Pixel - Pixel)+j*Pixel), int((self.Ptera_loc_y * Pixel - 7*Pixel)+i*Pixel), Pixel, Pixel])
+                    led.set_pixel(int(((self.Ptera_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Ptera_loc_y*Pixel - 7*Pixel)+i*Pixel)/Pixel), 7)
         self.Col_P = pygame.Rect(int(self.Ptera_loc_x*Pixel - Pixel), int((self.Ptera_loc_y * Pixel - 6*Pixel)+0*Pixel), 4*Pixel, 2*Pixel)
         #pygame.draw.rect(win, ORANGE, [int(self.Ptera_loc_x*Pixel - Pixel), int(self.Ptera_loc_y * Pixel - 4*Pixel), Pixel, Pixel])
     def update(self):
@@ -112,7 +125,16 @@ class Ptera():
         if int(self.Ptera_loc_x*Pixel - Pixel) <= 0:
             self.Ptera_loc_x = randint(32, 100)
 
+class Background():
+    def draw(self):
+        for i in range(16):
+            for j in range(32):
+                if background[i][j] == 0:
+                    led.set_pixel(j, i, 0)
 
+LED_init()
+
+S = Background()
 D = Dino(X, Y)            
 C = Cactus()
 B = Box()
@@ -120,6 +142,7 @@ P = Ptera()
 
 while run:
     win.fill(BLACK)
+    S.draw()
     D.draw()
     C.draw()
     B.draw()
@@ -155,9 +178,6 @@ while run:
             Eaten_Box.add(B.COLOR)
 
 
-
-              
-    
 
 
     pygame.time.delay(30)
