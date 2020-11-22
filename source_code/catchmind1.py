@@ -1,4 +1,4 @@
-#아직 해결 못한거:시간측정, LED 출력, 음성인식 
+#아직 해결 못한거:LED 출력, 음성인식 
 
 
 #공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
@@ -65,6 +65,11 @@ for i in range(0,7,1):
     if colorlistcnt[i]>0:
         drawColor(colorlist[i],335-i*50)
 
+#프로그램(창) 종료
+def endP():
+    bye()
+    print("걸린 시간:",time.time()-start)
+    
 #클릭에 따라 색칠하기
 def drawShape(x, y):    
     ledcolor = 2 
@@ -80,19 +85,19 @@ def drawShape(x, y):
     goto(a,b-15)
     down()
     goto(a,b-30)
-    led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
+    #led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
+    
+    onkey(endP,"space")
+    listen()
+    
+LED_init()
+onscreenclick(drawShape)
 
 ### test code by MINSEONG ###
-LED_init()
-while(1):
+#while(1):
 #pencolor("green")
-    onscreenclick(drawShape)
-    mainloop()
+#    onscreenclick(drawShape)
+#    mainloop()
 #############################
         
 #음성인식해서 정답일 시
-        #종료시간 측정
-        #종료시간 - 시작시간 보여줌
-        #종료시간 - 시작시간 기록(?)
-
-print("걸린 시간:",time.time()-start)
