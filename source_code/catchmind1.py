@@ -3,11 +3,21 @@
 
 #공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
 #색(빨주노초파보흰) colorlist
-colorlist=["red","orange","yellow","green","blue","purple","gray"]
-colorlistcnt=[0,2,3,0,4,2,3]
+#colorlist=["red","orange","yellow","green","blue","purple","gray"]
+colorlist=["black","red","green","yellow","blue","purple","skyblue"]
+#colorlistcnt=[0,2,3,0,4,2,3]
+colorlistcnt=[1,2,3,1,4,2,3]
 
 from turtle import*
 import time
+import led_display as led
+import threading
+
+def LED_init():
+    t=threading.Thread(target=led.main, args=())
+    t.setDaemon(True)
+    t.start()
+    return
 
 #시작시간 측정
 start=time.time()
@@ -61,22 +71,33 @@ def endP():
     print("걸린 시간:",time.time()-start)
     
 #클릭에 따라 색칠하기
-def drawShape(x,y):    
-    
+def drawShape(x, y):    
+    ledcolor = 2 
     if 700<=x<=750:
         for k in range(0,7,1):
             if 300-50*k<y<=350-50*k:
                 if colorlistcnt[k]>0:
                     pencolor(colorlist[k])
+                    ledcolor = k
     a=x-x%50+25    
     b=(y//50+1)*50
     up()
     goto(a,b-15)
     down()
     goto(a,b-30)
+    #led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
+    
     onkey(endP,"space")
     listen()
-
+    
+LED_init()
 onscreenclick(drawShape)
+
+### test code by MINSEONG ###
+#while(1):
+#pencolor("green")
+#    onscreenclick(drawShape)
+#    mainloop()
+#############################
         
 #음성인식해서 정답일 시
