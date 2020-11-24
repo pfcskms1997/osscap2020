@@ -2,8 +2,8 @@ import pygame
 from random import *
 from turtle import*
 import time
-import led_display as led
-import threading
+#import led_display as led
+#import threading
 
 pygame.init()
 Pixel = 30
@@ -52,11 +52,11 @@ Cactus_array = [ [ 0, 0, 1, 0 ],
 
 background = [[0 for x in range(32)] for x in range(16)]
 
-def LED_init():
-    t=threading.Thread(target=led.main, args=())
-    t.setDaemon(True)
-    t.start()
-    return
+#def LED_init():
+#    t=threading.Thread(target=led.main, args=())
+#    t.setDaemon(True)
+#    t.start()
+#    return
 
 class Dino():
     def __init__(self, x, y):
@@ -74,7 +74,7 @@ class Dino():
                 for j in range(6):
                     if dino_array[i][j] == 1:
                         pygame.draw.rect(win, WHITE, [int(self.x+j*Pixel), int(self.y+i*Pixel-5*Pixel), Pixel, Pixel])
-                        led.set_pixel(int((self.x+j*Pixel)/Pixel), int((self.y+i*Pixel-5*Pixel)/Pixel), 3)
+#                       led.set_pixel(int((self.x+j*Pixel)/Pixel), int((self.y+i*Pixel-5*Pixel)/Pixel), 3)
             self.Col_U_D = pygame.Rect(int(self.x+0*Pixel), int(self.y-5*Pixel), 6*Pixel, 3*Pixel)
             self.Col_L_D = pygame.Rect([int(self.x+Pixel), int(self.y-2*Pixel), 3*Pixel, 2*Pixel])
                         
@@ -83,7 +83,7 @@ class Dino():
                 for j in range(6):
                     if Ducked_dino_array[i][j] == 1:
                         pygame.draw.rect(win, WHITE, [int(self.x+j*Pixel), int(self.y+i*Pixel-5*Pixel), Pixel, Pixel])
-                        led.set_pixel(int((self.x+j*Pixel)/Pixel), int((self.y+i*Pixel-5*Pixel)/Pixel), 3)
+#                       led.set_pixel(int((self.x+j*Pixel)/Pixel), int((self.y+i*Pixel-5*Pixel)/Pixel), 3)
             self.Col_U_D = pygame.Rect(int(self.x+0*Pixel), int(self.y-3*Pixel), 6*Pixel, 2*Pixel)
             self.Col_L_D = pygame.Rect([int(self.x+1*Pixel), int(self.y-Pixel), 3*Pixel, 2*Pixel])
 
@@ -100,7 +100,7 @@ class Cactus():
                 for j in range(4):
                     if Cactus_array[i][j] == 1:
                         pygame.draw.rect(win, GREEN, [int((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel), int((self.Cacti_loc_y * Pixel - 4*Pixel)+i*Pixel), Pixel, Pixel])
-                        led.set_pixel(int(((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Cacti_loc_y*Pixel -4*Pixel)+i*Pixel)/Pixel), 3)
+#                       led.set_pixel(int(((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Cacti_loc_y*Pixel -4*Pixel)+i*Pixel)/Pixel), 3)
             self.Col_C_X = pygame.Rect(int(self.Cacti_loc_x*Pixel - 0*Pixel), int(self.Cacti_loc_y * Pixel - 3*Pixel), 3*Pixel, Pixel)
             self.Col_C_Y = pygame.Rect(int(self.Cacti_loc_x*Pixel - (-1)*Pixel), int(self.Cacti_loc_y * Pixel - 4*Pixel), Pixel, 4*Pixel)
         else:
@@ -121,14 +121,14 @@ class Box():
     def draw(self):
         if self.disappear == False:
             pygame.draw.rect(win, self.COLOR, [int(self.Box_loc_x*Pixel - Pixel), int(self.Box_loc_y * Pixel - 10*Pixel), Pixel, Pixel])
-            led.set_pixel(int((self.Box_loc_x*Pixel - Pixel)/Pixel), int((self.Box_loc_y*Pixel - 10*Pixel)/Pixel), self.rand)
+#           led.set_pixel(int((self.Box_loc_x*Pixel - Pixel)/Pixel), int((self.Box_loc_y*Pixel - 10*Pixel)/Pixel), self.rand+1)
         else:
             pass
         self.Col_B = pygame.Rect(int(self.Box_loc_x*Pixel - Pixel), int(self.Box_loc_y * Pixel - 10*Pixel), Pixel, Pixel)
     def update(self):
         self.Box_loc_x -= spd
         if int(self.Box_loc_x*Pixel - Pixel) <= 0:
-            self.rand = randint(0, 7)
+            self.rand = randint(0, 6)
             self.COLOR = Color_Set[self.rand]
             self.Box_loc_x = randint(32, 100)
             self.Box_loc_y = randint(14, 20)
@@ -147,7 +147,7 @@ class Ptera():
                 for j in range(4):
                     if ptera_array[i][j] == 1:
                         pygame.draw.rect(win, YELLOW, [int((self.Ptera_loc_x*Pixel - Pixel)+j*Pixel), int((self.Ptera_loc_y * Pixel - 7*Pixel)+i*Pixel), Pixel, Pixel])
-                        led.set_pixel(int(((self.Ptera_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Ptera_loc_y*Pixel - 7*Pixel)+i*Pixel)/Pixel), 4)
+#                       led.set_pixel(int(((self.Ptera_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Ptera_loc_y*Pixel - 7*Pixel)+i*Pixel)/Pixel), 4)
             self.Col_P = pygame.Rect(int(self.Ptera_loc_x*Pixel - Pixel), int((self.Ptera_loc_y * Pixel - 6*Pixel)+0*Pixel), 4*Pixel, 2*Pixel)
         else:
             pass
@@ -169,7 +169,7 @@ class Fireball():
         self.Shoot = False
     def draw(self):
         pygame.draw.rect(win, self.COLOR, [self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel])
-        #led.set_pixel()
+#       led.set_pixel(int(self.Fireball_loc_x/Pixel) + 6, int((self.Fireball_loc_y)/Pixel), 1)
         self.Col_F = pygame.Rect(self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel)
         self.Fireball_loc_x += Pixel
     def update(self):
@@ -181,16 +181,16 @@ class Fireball():
 
             # self.COLOR = choice(list(Eaten_Box)) 
 
-class Background():
-    def draw(self):
-        for i in range(16):
-            for j in range(32):
-                if background[i][j] == 0:
-                    led.set_pixel(j, i, 0)
+#class Background():
+#    def draw(self):
+#        for i in range(16):
+#           for j in range(32):
+#                if background[i][j] == 0:
+#                   led.set_pixel(j, i, 0)
 
-LED_init()
+#LED_init()
 
-S = Background()
+#S = Background()
 D = Dino(X, Y)            
 C = Cactus()
 B = Box()
@@ -215,11 +215,11 @@ while run:
     for i, v in enumerate(list(Eaten_Box)):
         pygame.draw.rect(win, v, [31*Pixel-i*Pixel, 0*Pixel, Pixel, Pixel])
         background[0][31-i] = 1
-        for c in range(8):
+        for c in range(7):
             if v == Color_Set[c]:
                 eaten_color = c
-        led.set_pixel(int((31*Pixel - i*Pixel)/Pixel), 0, eaten_color)
-    S.draw()
+#        led.set_pixel(int((31*Pixel - i*Pixel)/Pixel), 0, eaten_color+1)
+#    S.draw()
     D.draw()
     C.draw()
     B.draw()
@@ -280,15 +280,19 @@ while run:
             B.disappear = True
         if i.colliderect(C.Col_C_X) or i.colliderect(C.Col_C_Y):
             print("Game Over!")
-            run = False       
+            run = False
             
-
               
     
 
 
     pygame.time.delay(25)
-    pygame.display.update() 
+    pygame.display.update()
+#S.draw()
+## ending screen
+## 3 secs
+
+################### Catch Mind ################################
 #공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
 #색(빨주노초파보흰) colorlist
 print(Eaten_Box)
@@ -368,19 +372,22 @@ def answer(mmm):
 
     
 #클릭에 따라 색칠하기
+ledcolor = 0
 def drawShape(x,y):    
-    
+    global ledcolor 
     if 700<=x<=750:
         for k in range(0,7,1):
             if 300-50*k<y<=350-50*k:
                 if colorlistcnt[k]>0:
                     pencolor(colorlist[k])
+                    ledcolor = k+1
     a=x-x%50+25    
     b=(y//50+1)*50
     up()
     goto(a,b-15)
     down()
     goto(a,b-30)
+#    led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
     onkey(endP,"space")
     listen()
 while 1: 
