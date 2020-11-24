@@ -108,7 +108,7 @@ class Box():
         self.Box_loc_y = 16
         self.Col_B = 0
         self.rand = 1
-        self.COLOR = RED
+        self.COLOR = WHITE
         self.disappear = False
     def draw(self):
         if self.disappear == False:
@@ -140,7 +140,7 @@ class Ptera():
         self.Col_P = pygame.Rect(int(self.Ptera_loc_x*Pixel - Pixel), int((self.Ptera_loc_y * Pixel - 6*Pixel)+0*Pixel), 4*Pixel, 2*Pixel)
         #pygame.draw.rect(win, ORANGE, [int(self.Ptera_loc_x*Pixel - Pixel), int(self.Ptera_loc_y * Pixel - 4*Pixel), Pixel, Pixel])
     def update(self):
-        self.Ptera_loc_x -= speed * 1.5
+        self.Ptera_loc_x -= speed * 2
         if int(self.Ptera_loc_x*Pixel - Pixel) <= 0:
             self.Ptera_loc_x = randint(32, 100)
             self.Ptera_loc_y = randint(13, 16)
