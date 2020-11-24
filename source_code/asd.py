@@ -262,14 +262,20 @@ for i in Eaten_Box:
 print(colorlistcnt)
 
 kkk=input("그릴 것을 입력하시오  :   ")
-    
+
+#def LED_init():
+#    t=threading.Thread(target=led.main, args=())
+#    t.setDaemon(True)
+#    t.start()
+#    return
+
 #시작시간 측정
 start=time.time()
+
+#화면설정
 bgcolor("black")
 pencolor("white")
 title("Catch my drawing")
-
-#화면 설정
 setup(1600,800)
 hideturtle()
 speed(0)
@@ -327,25 +333,26 @@ def answer(mmm):
     
 #클릭에 따라 색칠하기
 def drawShape(x,y):    
-    
+    #ledcolor = 2
     if 700<=x<=750:
         for k in range(0,7,1):
             if 300-50*k<y<=350-50*k:
                 if colorlistcnt[k]>0:
                     pencolor(colorlist[k])
+                    #ledcolor = k
     a=x-x%50+25    
     b=(y//50+1)*50
     up()
     goto(a,b-15)
     down()
     goto(a,b-30)
+    #led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
     onkey(endP,"space")
     listen()
-while 1: 
+    
+#LED_init()
+
+while True: 
     onscreenclick(drawShape)
     mainloop()
-        
-#음성인식해서 정답일 시
-        #종료시간 측정
-        #종료시간 - 시작시간 보여줌
-        #종료시간 - 시작시간 기록(?)
+
