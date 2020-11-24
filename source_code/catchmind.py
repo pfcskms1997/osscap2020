@@ -13,6 +13,8 @@ import time
 import led_display as led
 import threading
 
+aaa=input("그릴 것을 입력하세요")
+
 def LED_init():
     t=threading.Thread(target=led.main, args=())
     t.setDaemon(True)
@@ -68,8 +70,11 @@ for i in range(0,7,1):
 #프로그램(창) 종료
 def endP():
     bye()
-    print("걸린 시간:",time.time()-start)
-    
+    mmm=input("정답을 입력하시오")
+    if mmm=kkk:
+        print("걸린 시간:",time.time()-start)
+    else:
+        print("정답이 아닙니다.")
 #클릭에 따라 색칠하기
 def drawShape(x, y):    
     ledcolor = 2 
@@ -84,7 +89,7 @@ def drawShape(x, y):
     up()
     goto(a,b-15)
     down()
-    goto(ia,b-30)
+    goto(a,b-30)
     led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
     
     onkey(endP,"space")
