@@ -24,7 +24,7 @@ SKYBLUE = (0, 216, 255)
 WHITE = (255, 255, 255)
 Color_Set = [RED, GREEN, YELLOW, BLUE, PURPLE, SKYBLUE, WHITE]
 
-speed = 0.4
+spd = 0.4
 run = False
 dino_array = [ [ 1, 0, 0, 0, 1, 0 ],
                 [ 1, 0, 0, 1, 1, 1 ], 
@@ -82,16 +82,20 @@ class Cactus():
         self.Col_C_Y = 0
         self.disappear = False
     def draw(self):
-        for i in range(4):
-            for j in range(4):
-                if Cactus_array[i][j] == 1:
-                    pygame.draw.rect(win, GREEN, [int((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel), int((self.Cacti_loc_y * Pixel - 4*Pixel)+i*Pixel), Pixel, Pixel])
-        self.Col_C_X = pygame.Rect(int(self.Cacti_loc_x*Pixel - 0*Pixel), int(self.Cacti_loc_y * Pixel - 3*Pixel), 3*Pixel, Pixel)
-        self.Col_C_Y = pygame.Rect(int(self.Cacti_loc_x*Pixel - (-1)*Pixel), int(self.Cacti_loc_y * Pixel - 4*Pixel), Pixel, 4*Pixel)
+        if self.disappear == False:
+            for i in range(4):
+                for j in range(4):
+                    if Cactus_array[i][j] == 1:
+                        pygame.draw.rect(win, GREEN, [int((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel), int((self.Cacti_loc_y * Pixel - 4*Pixel)+i*Pixel), Pixel, Pixel])
+            self.Col_C_X = pygame.Rect(int(self.Cacti_loc_x*Pixel - 0*Pixel), int(self.Cacti_loc_y * Pixel - 3*Pixel), 3*Pixel, Pixel)
+            self.Col_C_Y = pygame.Rect(int(self.Cacti_loc_x*Pixel - (-1)*Pixel), int(self.Cacti_loc_y * Pixel - 4*Pixel), Pixel, 4*Pixel)
+        else:
+            pass
     def update(self):
-        self.Cacti_loc_x -= 1.3 * speed
+        self.Cacti_loc_x -= 1.3 * spd
         if int(self.Cacti_loc_x*Pixel - Pixel) <= 0:
             self.Cacti_loc_x = randint(32, 100)
+            self.disappear = False
 class Box():
     def __init__(self):   
         self.Box_loc_x = 45
@@ -106,7 +110,7 @@ class Box():
             pass
         self.Col_B = pygame.Rect(int(self.Box_loc_x*Pixel - Pixel), int(self.Box_loc_y * Pixel - 10*Pixel), Pixel, Pixel)
     def update(self):
-        self.Box_loc_x -= speed
+        self.Box_loc_x -= spd
         if int(self.Box_loc_x*Pixel - Pixel) <= 0:
             self.COLOR = choice(Color_Set)
             self.Box_loc_x = randint(32, 100)
@@ -131,35 +135,35 @@ class Ptera():
             pass
         #pygame.draw.rect(win, ORANGE, [int(self.Ptera_loc_x*Pixel - Pixel), int(self.Ptera_loc_y * Pixel - 4*Pixel), Pixel, Pixel])
     def update(self):
-        self.Ptera_loc_x -= speed * 2 
+        self.Ptera_loc_x -= spd * 2 
         if int(self.Ptera_loc_x*Pixel - Pixel) <= 0:
             self.Ptera_loc_x = randint(32, 100)
             self.Ptera_loc_y = randint(13, 16)
 
-# class Fireball():
-#     def __init__(self):
-#         self.Fireball_loc_x = D.x + 6*Pixel
-#         self.Fireball_loc_y = 0
-#         self.COLOR = 0
-#         self.Col_F = pygame.Rect(self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel)
-#         self.collision = False
-#         self.Shoot = False
-#     def draw(self):
-#         pygame.draw.rect(win, self.COLOR, [self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel])
-#         self.Fireball_loc_x += Pixel
-#     def update(self):
-#         if self.collision == True or self.Fireball_loc_x >= 33*Pixel:
-#             self.Fireball_loc_x = D.x + 6*Pixel
-#             self.collision = False
-#             self.Shoot = False
+class Fireball():
+    def __init__(self):
+        self.Fireball_loc_x = D.x + 6*Pixel
+        self.Fireball_loc_y = 0
+        self.COLOR = RED
+        self.Col_F = pygame.Rect(self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel)
+        self.collision = False
+        self.Shoot = False
+    def draw(self):
+        pygame.draw.rect(win, self.COLOR, [self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel])
+        self.Fireball_loc_x += Pixel
+    def update(self):
+        if self.collision == True or self.Fireball_loc_x >= 33*Pixel:
+            self.Fireball_loc_x = D.x + 6*Pixel
+            self.collision = False
+            self.Shoot = False
 
-#             self.COLOR = choice(list(Eaten_Box)) 
+            # self.COLOR = choice(list(Eaten_Box)) 
 
 D = Dino(X, Y)            
 C = Cactus()
 B = Box()
 P = Ptera()
-# F = Fireball()
+F = Fireball()
 intro = True
 while intro:
     win.fill(BLACK)
@@ -182,13 +186,13 @@ while run:
     C.draw()
     B.draw()
     P.draw()
-    # if F.Shoot:
-    #     F.draw()
+    if F.Shoot:
+        F.draw()
     #     Eaten_Box.discard(F.COLOR)
     P.update()
     C.update()
     B.update()
-    # F.update()
+    F.update()
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -211,10 +215,10 @@ while run:
             vel_y = 10
 
     # Shoot
-    # if userInput[pygame.K_UP]:
-    #     F.Fireball_loc_y = D.y - 4*Pixel
-    #     if len(Eaten_Box) != 0:
-    #         F.Shoot = True
+    if userInput[pygame.K_UP]:
+        F.Fireball_loc_y = D.y - 4*Pixel
+        # if len(Eaten_Box) != 0:
+        F.Shoot = True
 
     # print(Eaten_Box)
 
@@ -231,9 +235,11 @@ while run:
             print("Game Over!")
             run = False       
             
-    # for i in [P.Col_P, C.Col_C_X, C.Col_C_Y]:
-    #     if i.colliderect(F.Col_F):
-    #         F.collision = True
+    for i in [P.Col_P, C.Col_C_X, C.Col_C_Y]:
+        if i.colliderect(F.Col_F):
+            F.collision = True
+            C.disappear = True
+            P.disappear = True
 
               
     
@@ -244,17 +250,19 @@ while run:
 #공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
 #색(빨주노초파보흰) colorlist
 print(Eaten_Box)
+colorlist=["red", "green", "yellow", "blue", "purple", "skyblue", "white"]
 colorlistcnt=[0,0,0,0,0,0,0]
 for i in Eaten_Box:
     if i in Color_Set:
         colorlistcnt[Color_Set.index(i)] += 1 
         # RED, GREEN, YELLOW, BLUE, PURPLE, SKYBLUE, WHITE
-# colorlist=[RED, GREEN, YELLOW, BLUE, PURPLE, SKYBLUE, WHITE]
+
 
 
 print(colorlistcnt)
 
 kkk=input("그릴 것을 입력하시오  :   ")
+    
 #시작시간 측정
 start=time.time()
 bgcolor("black")
@@ -264,7 +272,7 @@ title("Catch my drawing")
 #화면 설정
 setup(1600,800)
 hideturtle()
-speed(100000)
+speed(0)
 pensize(5)
 
 #평행선
@@ -299,7 +307,7 @@ def drawColor(color,b):
 #화면에 색깔의 존재 나타내기
 for i in range(0,7,1):
     if colorlistcnt[i]>0:
-        drawColor(Color_Set[i],335-i*50)
+        drawColor(colorlist[i],335-i*50)
 
 #프로그램(창) 종료
 def endP():
@@ -324,7 +332,7 @@ def drawShape(x,y):
         for k in range(0,7,1):
             if 300-50*k<y<=350-50*k:
                 if colorlistcnt[k]>0:
-                    pencolor(Color_Set[k])
+                    pencolor(colorlist[k])
     a=x-x%50+25    
     b=(y//50+1)*50
     up()
@@ -333,8 +341,9 @@ def drawShape(x,y):
     goto(a,b-30)
     onkey(endP,"space")
     listen()
-
-onscreenclick(drawShape)
+while 1: 
+    onscreenclick(drawShape)
+    mainloop()
         
 #음성인식해서 정답일 시
         #종료시간 측정
