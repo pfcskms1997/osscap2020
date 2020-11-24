@@ -95,7 +95,7 @@ class Cactus():
             for j in range(4):
                 if Cactus_array[i][j] == 1:
                     pygame.draw.rect(win, GREEN, [int((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel), int((self.Cacti_loc_y * Pixel - 4*Pixel)+i*Pixel), Pixel, Pixel])
-                    led.set_pixel(int(((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Cacti_loc_y*Pixel -*Pixel)+i*Pixel)/Pixel), 3)
+                    led.set_pixel(int(((self.Cacti_loc_x*Pixel - Pixel)+j*Pixel)/Pixel), int(((self.Cacti_loc_y*Pixel -4*Pixel)+i*Pixel)/Pixel), 3)
         self.Col_C_X = pygame.Rect(int(self.Cacti_loc_x*Pixel - 0*Pixel), int(self.Cacti_loc_y * Pixel - 3*Pixel), 3*Pixel, Pixel)
         self.Col_C_Y = pygame.Rect(int(self.Cacti_loc_x*Pixel - (-1)*Pixel), int(self.Cacti_loc_y * Pixel - 4*Pixel), Pixel, 4*Pixel)
     def update(self):
