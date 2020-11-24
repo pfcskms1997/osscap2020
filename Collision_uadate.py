@@ -159,9 +159,24 @@ D = Dino(X, Y)
 C = Cactus()
 B = Box()
 P = Ptera()
+intro = True
+while intro:
+    win.fill(BLACK)
+    D.draw()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            intro = False
+            run = False
 
+    userInput = pygame.key.get_pressed()
+    if userInput[pygame.K_SPACE]:
+        intro = False
+        run = True
+    pygame.display.update() 
 while run:
     win.fill(BLACK)
+    for i, v in enumerate(list(Eaten_Box)):
+        pygame.draw.rect(win, v, [31*Pixel-i*Pixel, 0*Pixel, Pixel, Pixel])
     S.draw()
     D.draw()
     C.draw()
@@ -194,13 +209,13 @@ while run:
     for i in [D.Col_L_D, D.Col_U_D]:
         if i.colliderect(P.Col_P):
             print("Game Over!")
-            run = 0
+            run = False
         if i.colliderect(B.Col_B):
             Eaten_Box.add(B.COLOR)
             B.disappear = True
         if i.colliderect(C.Col_C_X) or i.colliderect(C.Col_C_Y):
             print("Game Over!")
-            run = 0           
+            run = False           
 
 
               
