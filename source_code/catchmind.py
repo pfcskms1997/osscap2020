@@ -78,7 +78,7 @@ def endP():
             
 #정답
 def answer(mmm):
-    if mmm=kkk:
+    if mmm==kkk:
         print("걸린 시간:",time.time()-start)
     else:
         print("정답이 아닙니다.")
