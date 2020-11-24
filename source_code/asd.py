@@ -139,23 +139,26 @@ class Ptera():
         if int(self.Ptera_loc_x*Pixel - Pixel) <= 0:
             self.Ptera_loc_x = randint(32, 100)
             self.Ptera_loc_y = randint(13, 16)
+            self.disappear = False
 
 class Fireball():
     def __init__(self):
         self.Fireball_loc_x = D.x + 6*Pixel
         self.Fireball_loc_y = 0
         self.COLOR = RED
-        self.Col_F = pygame.Rect(self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel)
+        self.Col_F = 0
         self.collision = False
         self.Shoot = False
     def draw(self):
         pygame.draw.rect(win, self.COLOR, [self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel])
+        self.Col_F = pygame.Rect(self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel)
         self.Fireball_loc_x += Pixel
     def update(self):
         if self.collision == True or self.Fireball_loc_x >= 33*Pixel:
             self.Fireball_loc_x = D.x + 6*Pixel
             self.collision = False
             self.Shoot = False
+         
 
             # self.COLOR = choice(list(Eaten_Box)) 
 
@@ -186,14 +189,23 @@ while run:
     C.draw()
     B.draw()
     P.draw()
-    if F.Shoot:
-        F.draw()
+    
     #     Eaten_Box.discard(F.COLOR)
     P.update()
     C.update()
     B.update()
     F.update()
-    
+    if F.Shoot:
+        F.draw()
+        for i in [C.Col_C_X, C.Col_C_Y]:
+            if i.colliderect(F.Col_F):
+                F.collision = True
+                C.disappear = True
+        if P.Col_P.colliderect(F.Col_F):
+            P.disappear = True
+            F.collision = True
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -216,7 +228,7 @@ while run:
 
     # Shoot
     if userInput[pygame.K_UP]:
-        F.Fireball_loc_y = D.y - 4*Pixel
+        F.Fireball_loc_y = D.y - 3*Pixel
         # if len(Eaten_Box) != 0:
         F.Shoot = True
 
@@ -235,11 +247,6 @@ while run:
             print("Game Over!")
             run = False       
             
-    for i in [P.Col_P, C.Col_C_X, C.Col_C_Y]:
-        if i.colliderect(F.Col_F):
-            F.collision = True
-            C.disappear = True
-            P.disappear = True
 
               
     
@@ -262,20 +269,14 @@ for i in Eaten_Box:
 print(colorlistcnt)
 
 kkk=input("그릴 것을 입력하시오  :   ")
-
-#def LED_init():
-#    t=threading.Thread(target=led.main, args=())
-#    t.setDaemon(True)
-#    t.start()
-#    return
-
+    
 #시작시간 측정
 start=time.time()
-
-#화면설정
 bgcolor("black")
 pencolor("white")
 title("Catch my drawing")
+
+#화면 설정
 setup(1600,800)
 hideturtle()
 speed(0)
@@ -333,26 +334,25 @@ def answer(mmm):
     
 #클릭에 따라 색칠하기
 def drawShape(x,y):    
-    #ledcolor = 2
+    
     if 700<=x<=750:
         for k in range(0,7,1):
             if 300-50*k<y<=350-50*k:
                 if colorlistcnt[k]>0:
                     pencolor(colorlist[k])
-                    #ledcolor = k
     a=x-x%50+25    
     b=(y//50+1)*50
     up()
     goto(a,b-15)
     down()
     goto(a,b-30)
-    #led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
     onkey(endP,"space")
     listen()
-    
-#LED_init()
-
-while True: 
+while 1: 
     onscreenclick(drawShape)
     mainloop()
-
+        
+#음성인식해서 정답일 시
+        #종료시간 측정
+        #종료시간 - 시작시간 보여줌
+        #종료시간 - 시작시간 기록(?)
