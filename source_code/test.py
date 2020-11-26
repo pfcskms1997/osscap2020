@@ -368,6 +368,22 @@ def endP():
 def answer(mmm):
     if mmm==kkk:
         print("걸린 시간:",time.time()-start)
+        ID=input("이름을 입력해주세요.")
+        f=open("osscap2020.txt",'a')
+        data=str(  time.time()-start)+"\n"
+        f.write(ID )
+        f.write( data)
+        f.close()
+        wantList=input("기록을 보고싶다면 a를 입력해주세요")
+        if wantList=="a":
+            f=open("osscap2020.txt",'r')
+            while True:
+                line=f.readline()
+                if not line:break
+                print(line)
+                print("\n")
+            f.close()
+            
     else:print("정답이 아닙니다.")
 
     
@@ -393,6 +409,7 @@ def drawShape(x,y):
 while 1: 
     onscreenclick(drawShape)
     mainloop()
+    break
         
 #음성인식해서 정답일 시
         #종료시간 측정
