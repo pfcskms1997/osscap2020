@@ -383,6 +383,7 @@ for i in Eaten_Box:
 print(colorlistcnt)
 
 kkk=input("그릴 것을 입력하시오 : ")
+print("지우개를 사용하려면 z를 누르시오")
 print("그림이 완성되면 space를 누르시오")
 
 #시작시간 측정
@@ -439,7 +440,13 @@ def endP():
         answer(mmm)
         if (mmm==kkk):
             break
-        
+
+ledcolor = 7
+def EraseP():
+    pencolor("black")
+    global ledcolor
+    ledcolor = 0
+
 #정답 맞추기
 timer = ''
 def answer(mmm):
@@ -469,7 +476,6 @@ def answer(mmm):
 
     
 #클릭에 따라 색칠하기
-ledcolor = 7
 def drawShape(x,y):    
     global ledcolor 
     if 700<=x<=750:
@@ -486,6 +492,7 @@ def drawShape(x,y):
     goto(a,b-30)
     led.set_pixel(int((a+775)/50), int((400-b)/50), ledcolor)
     onkey(endP,"space")
+    onkey(EraseP, "z")
     listen()
 
 while 1: 
