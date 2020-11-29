@@ -186,9 +186,13 @@ class Fireball():
         self.collision = False
         self.Shoot = False
     def draw(self):
+        fire_color=0
+        for i in range(len(Color_Set)):
+            if self.COLOR == Color_Set[i]:
+	            fire_color = i + 1
         self.COLOR = list(Eaten_Box)[-1]
         pygame.draw.rect(win, self.COLOR, [self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel])
-        # led.set_pixel(int(self.Fireball_loc_x/Pixel) + 6, int((self.Fireball_loc_y)/Pixel), 1)
+        led.set_pixel(int(self.Fireball_loc_x/Pixel) + 6, int((self.Fireball_loc_y)/Pixel), fire_color)
         self.Col_F = pygame.Rect(self.Fireball_loc_x, self.Fireball_loc_y, Pixel, Pixel)
         self.Fireball_loc_x += Pixel
     def update(self):
@@ -355,6 +359,23 @@ record_screen = [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
                   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], 
                   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ] 
 
+correct = [ [ 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 2 ],
+            [ 2, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0 ],
+            [ 2, 0, 0, 0, 0, 2, 0, 0, 2, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 2, 0, 0, 0, 0, 0, 2, 0 ],
+            [ 2, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 0, 2, 0, 0, 2, 0, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0 ],
+            [ 0, 2, 2, 0, 0, 0, 2, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 0, 2, 0 ],
+            [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 0, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 7, 7, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 0, 3, 0, 0, 0, 7, 7, 0, 0, 0, 0 ],
+            [ 0, 1, 1, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 1, 1, 0 ],
+            [ 0, 0, 0, 1, 0, 0, 7, 7, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 7, 7, 0, 0, 1, 0, 0, 0 ],
+            [ 0, 0, 0, 1, 0, 7, 0, 0, 7, 0, 0, 0, 0, 0, 1, 2, 2, 2, 1, 0, 0, 0, 0, 7, 0, 0, 7, 0, 1, 0, 0, 0 ],
+            [ 0, 0, 4, 0, 7, 0, 0, 0, 7, 0, 0, 0, 0, 0, 1, 5, 5, 5, 1, 0, 0, 0, 0, 7, 0, 0, 0, 7, 0, 4, 0, 0 ],
+            [ 0, 0, 4, 4, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 4, 4, 0, 0 ],
+            [ 0, 0, 4, 4, 4, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 4, 4, 4, 0, 0 ],
+            [ 0, 4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 4, 0 ] ]
+
 digit_num = [ [ [ 0, 0, 1 ], [ 0, 0, 1 ], [ 0, 0, 1 ], [ 0, 0, 1 ], [ 0, 0, 1 ] ],  #1
               [ [ 1, 1, 1 ], [ 0, 0, 1 ], [ 1, 1, 1 ], [ 1, 0, 0 ], [ 1, 1, 1 ] ],  #2
               [ [ 1, 1, 1 ], [ 0, 0, 1 ], [ 1, 1, 1 ], [ 0, 0, 1 ], [ 1, 1, 1 ] ],  #3
@@ -380,6 +401,26 @@ class MidScreen():
            for j in range(13, 32, 1):
                 if mid_screen[i][j] == 1:
                     led.set_pixel(j, i, 3)
+
+def CorrectScreen():
+    for i in range(16):
+        for j in range(32):
+            if correct[i][j] == 1:
+                led.set_pixel(j, i, 1)
+            elif correct[i][j] == 2:
+                led.set_pixel(j, i, 2)
+            elif correct[i][j] == 3:
+                led.set_pixel(j, i, 3)
+            elif correct[i][j] == 4:
+                led.set_pixel(j, i, 4)
+            elif correct[i][j] == 5:
+                led.set_pixel(j, i, 5)
+            elif correct[i][j] == 6:
+                led.set_pixel(j, i, 6)
+            elif correct[i][j] == 7:
+                led.set_pixel(j, i, 7)
+            elif correct[i][j] == 0:
+                led.set_pixel(j, i, 0)
 
 def draw_matrix(m):
     array = m.get_array()
@@ -484,6 +525,7 @@ timer = ''
 def answer(mmm):
     global timer
     if mmm == kkk:
+        CorrectScreen()
         #timer = round(time.time() - start, 3)
         timer = '{:.3f}'.format(round(time.time() - start, 3)) 
         print("걸린 시간:", timer)
