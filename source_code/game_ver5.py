@@ -371,8 +371,8 @@ S.draw()
 #공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
 #색(빨주노초파보흰) colorlist
 print(Eaten_Box)
-colorlist=["red", "green", "yellow", "blue", "purple", "skyblue", "white"]
-colorlistcnt=[0,0,0,0,0,0,0]
+colorlist=["red", "green", "yellow", "blue", "purple", "skyblue", "white","Black"]
+colorlistcnt=[0,0,0,0,0,0,0,1]
 for i in Eaten_Box:
     if i in Color_Set:
         colorlistcnt[Color_Set.index(i)] += 1 
@@ -428,7 +428,7 @@ def drawColor(color,b):
 
 
 #화면에 색깔의 존재 나타내기
-for i in range(0,7,1):
+for i in range(0,8,1):
     if colorlistcnt[i]>0:
         drawColor(colorlist[i],335-i*50)
 
