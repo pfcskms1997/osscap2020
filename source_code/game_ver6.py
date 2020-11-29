@@ -400,8 +400,8 @@ S.draw()
 #공룡게임으로 얻은 색깔 블럭 갯수를 colorlistcnt
 #색(빨주노초파보흰) colorlist
 print(Eaten_Box)
-colorlist=["red", "green", "yellow", "blue", "purple", "skyblue", "white","Black"]
-colorlistcnt=[0,0,0,0,0,0,0,1]
+colorlist=["red", "green", "yellow", "blue", "purple", "skyblue", "white"]
+colorlistcnt=[0,0,0,0,0,0,0]
 for i in Eaten_Box:
     if i in Color_Set:
         colorlistcnt[Color_Set.index(i)] += 1 
@@ -416,7 +416,7 @@ print("지우개를 사용하려면 z를 누르시오")
 print("그림이 완성되면 space를 누르시오")
 
 #시작시간 측정
-start=time.time()
+#start=time.time()
 bgcolor("black")
 pencolor("white")
 title("Catch my drawing")
@@ -457,13 +457,16 @@ def drawColor(color,b):
 
 
 #화면에 색깔의 존재 나타내기
-for i in range(0,8,1):
+for i in range(0,7,1):
     if colorlistcnt[i]>0:
         drawColor(colorlist[i],335-i*50)
 
 #프로그램(창) 종료
+start = 0
 def endP():
     bye()
+    global start
+    start = time.time()
     while(1):
         mmm=input("정답을 입력하시오 : ")
         answer(mmm)
