@@ -6,7 +6,7 @@
  - $sudo pip3 install pygame
  - $sudo pip3 install turtle
 
-3. 게임 실행(~/osscap2020/Final Product)
+3. 게임 실행(~/osscap2020/Final\ Product)
  - $python3 game_ver6.py
  
 4. 조작 방법
